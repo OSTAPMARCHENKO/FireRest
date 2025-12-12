@@ -9,7 +9,7 @@ import Foundation
 /// Global singleton for accessing the pre-configured transport layer.
 /// Acts as a synchronous bridge to the actor-based `TransportRegistry`.
 public final class NetworkManager {
-    
+
     /// Returns the active network transport.
     /// If `configure()` has not been called, this returns a fallback transport that throws a configuration error.
     public static var shared: NetworkTransport {
@@ -19,20 +19,20 @@ public final class NetworkManager {
         // Return a safe fallback instead of crashing
         return UnconfiguredTransport()
     }
-    
+
     /// Returns the active storage transport.
     /// Returns nil if storage has not been configured.
     public static var storage: StorageTransport? {
         return _storageInternal
     }
-    
-    // Internal backing properties
-    private let sharedInternal: NetworkTransport?
-    private let storageInternal: StorageTransport?
-    
+
+    // MARK: - Internal backing properties (must be static for a global manager)
+    private static var _sharedInternal: NetworkTransport?
+    private static var _storageInternal: StorageTransport?
+
     private init() {}
-    
-    /// One-time configuration method. Should be called at the app launch (AppDelegate/SceneDelegate).
+
+    /// One-time configuration method. Should be called at app launch (AppDelegate/SceneDelegate).
     ///
     /// - Parameters:
     ///   - network: The implementation of `NetworkTransport` (e.g., `URLSessionTransport` or `FirebaseTransport`).
@@ -43,9 +43,9 @@ public final class NetworkManager {
         storage: StorageTransport? = nil,
         listener: NetworkErrorListener? = nil
     ) {
-        self.sharedInternal = network
-        self.storageInternal = storage
-        
+        _sharedInternal = network
+        _storageInternal = storage
+
         Task {
             await TransportRegistry.shared.configure(
                 network: network,
