@@ -27,8 +27,8 @@ public final class NetworkManager {
     }
     
     // Internal backing properties
-    private static var _sharedInternal: NetworkTransport?
-    private static var _storageInternal: StorageTransport?
+    private let sharedInternal: NetworkTransport?
+    private let storageInternal: StorageTransport?
     
     private init() {}
     
@@ -43,8 +43,8 @@ public final class NetworkManager {
         storage: StorageTransport? = nil,
         listener: NetworkErrorListener? = nil
     ) {
-        _sharedInternal = network
-        _storageInternal = storage
+        self.sharedInternal = network
+        self.storageInternal = storage
         
         Task {
             await TransportRegistry.shared.configure(
