@@ -8,7 +8,7 @@ import Foundation
 
 /// Global singleton for accessing the pre-configured transport layer.
 /// Acts as a synchronous bridge to the actor-based `TransportRegistry`.
-public final class NetworkManager {
+public actor NetworkManager {
 
     /// Returns the active network transport.
     /// If `configure()` has not been called, this returns a fallback transport that throws a configuration error.
