@@ -29,3 +29,13 @@ Add the dependency to your `Package.swift`:
 dependencies: [
     .package(url: "[https://github.com/OSTAPMARCHENKO/FireRest.git](https://github.com/OSTAPMARCHENKO/FireRest.git)", from: "1.0.0")
 ]
+
+## 🛠 How to Use 🚀
+
+### 1. Get the Transports
+FireRest requires you to copy the specific transport implementations into your project to avoid unnecessary dependencies.
+👉 **[Go to Implementations folder](Implementations)** and copy the files you need (REST or Firebase).
+
+### 2. See Code Examples
+For full instructions on how to initialize the `NetworkManager`, define requests, and use them in a ViewModel:
+👉 **[Check the Examples folder](Examples)**
