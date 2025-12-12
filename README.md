@@ -20,13 +20,17 @@ Starting a project with Firebase is fast, but migrating away from it later is pa
 ---
 
 ## 🛠 How to Use
-1. Get the Transports
 
-FireRest requires you to copy the specific transport implementations into your project to avoid unnecessary dependencies. 👉 Go to Implementations folder and copy the files you need (REST or Firebase).
+FireRest 🔥 separates the **Core Protocols** (installed via SPM) from the **Network Logic** (which you choose).
 
-2. See Code https://www.google.com/search?q=Examples
+### 1. Choose a Transport
+You need an implementation to send requests.
+* **Ready-made:** Copy files from the **[Implementations folder](Implementations)** (REST or Firebase).
+* **Custom:** Create your own class conforming to `NetworkTransport` (e.g., for Alamofire or Mocks).
 
-For full instructions on how to initialize the NetworkManager, define requests, and use them in a ViewModel: 👉 Check the Examples folder
+### 2. See Examples
+For setup, request definitions, and usage:
+👉 **[Check the Examples folder](Examples)**
 
 ---
 
