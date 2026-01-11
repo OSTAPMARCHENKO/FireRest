@@ -22,6 +22,8 @@ public protocol Request: Sendable {
     var body: RequestBody? { get }
     var headers: [String: String]? { get }
     var transport: NetworkTransport? { get }
+    
+    var decoder: JSONDecoder { get }
 }
 
 // Default implementation for optional properties
@@ -29,6 +31,11 @@ public extension Request {
     var headers: [String: String]? { nil }
     var body: RequestBody? { nil }
     var transport: NetworkTransport? { nil }
+    
+    var decoder: JSONDecoder {
+        let decoder = JSONDecoder()
+        return decoder
+    }
 }
 
 /// Execution logic extension using async/await.
@@ -64,9 +71,13 @@ public extension Request {
                 case 200...299:
                     // Success Range
                     do {
-                        return try JSONDecoder().decode(ResponseObjectType.self, from: data)
+                        return try decoder.decode(ResponseObjectType.self, from: data)
                     } catch {
-                        throw TypedBackendError<ErrorType>.decodingFailed(data: data, underlying: error)
+                        if let backendError = try? decoder.decode(ErrorType.self, from: data) {
+                            throw TypedBackendError<ErrorType>.backend(backendError, statusCode: status)
+                        } else {
+                            throw TypedBackendError<ErrorType>.serverError(statusCode: status, data: data)
+                        }
                     }
                     
                 default:
